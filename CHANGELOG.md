@@ -1,3 +1,7 @@
+# [1.1.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.0.2...v1.1.0) (2018-12-06)
+
+
+
 ## [1.0.2](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.0.1...v1.0.2) (2018-12-05)
 
 
