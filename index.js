@@ -1,10 +1,15 @@
-import 'dumber/dist/ensure-parser-set';
-import {fsReadFile} from 'dumber/dist/shared';
-import {ext, parse} from 'dumber-module-loader/dist/id-utils';
-import astMatcher, {depFinder, ensureParsed} from 'ast-matcher';
-import htmlparser from 'htmlparser2';
+'use strict';
+require('dumber/dist/ensure-parser-set');
+var fsReadFile = require('dumber/dist/shared').fsReadFile;
+var idUtils = require('dumber-module-loader/dist/id-utils');
+var ext = idUtils.ext;
+var parse = idUtils.parse;
+var astMatcher = require('ast-matcher');
+var depFinder = astMatcher.depFinder;
+var ensureParsed = astMatcher.ensureParsed;
+var htmlparser = require('htmlparser2');
 
-const auJsDepFinder = depFinder(
+var auJsDepFinder = depFinder(
   'PLATFORM.moduleName(__dep)',
   '__any.PLATFORM.moduleName(__dep)',
   'PLATFORM.moduleName(__dep, __any)',
@@ -32,15 +37,16 @@ const auJsDepFinder = depFinder(
   // 2. use path.resolve('/', baseUrl, dep).slice(1) to get real deps
 );
 
-const _checkConfigureFunc = [
+var _checkConfigureFunc = [
   astMatcher('function configure(__any_auVar) {__anl_body}'),
   astMatcher('function configure(__any_auVar, __any) {__anl_body}'),
   astMatcher('exports.configure = function (__any_auVar) {__anl_body};'),
   astMatcher('exports.configure = function(__any_auVar, __any) {__anl_body};')
 ];
-const _findIf = astMatcher('if (__any) {__anl}');
 
-const _auConfigureDeps = depFinder(
+var _findIf = astMatcher('if (__any) {__anl}');
+
+var _auConfigureDeps = depFinder(
   // forgive users don't know about PLATFORM.moduleName
   '__any.plugin(__dep)',
   '__any.plugin(__dep, __any)',
@@ -52,8 +58,8 @@ const _auConfigureDeps = depFinder(
   '__any.globalResources([__deps])'
 );
 
-const _methodCall = astMatcher('__any.__any_method()');
-const auConfigModuleNames = {
+var _methodCall = astMatcher('__any.__any_method()');
+var auConfigModuleNames = {
   defaultBindingLanguage: ['aurelia-templating-binding'],
   router: ['aurelia-templating-router'],
   history: ['aurelia-history-browser'],
@@ -75,14 +81,14 @@ const auConfigModuleNames = {
 };
 
 // https://github.com/aurelia/framework/pull/851
-const auDevLogWithOptionalLevel = astMatcher('__any.developmentLogging(__any)');
+var auDevLogWithOptionalLevel = astMatcher('__any.developmentLogging(__any)');
 
-const auConfigureDepFinder = function(contents) {
+function auConfigureDepFinder(contents) {
   // the way to find configure function is not waterproof
-  let configFunc;
+  var configFunc;
 
-  _checkConfigureFunc.find(check => {
-    let m = check(contents);
+  _checkConfigureFunc.find(function(check) {
+    var m = check(contents);
     // only want single configure func
     if (m && m.length === 1) {
       configFunc = m[0];
@@ -92,47 +98,47 @@ const auConfigureDepFinder = function(contents) {
 
   if (!configFunc) return [];
 
-  let auVar = configFunc.match.auVar.name;
+  var auVar = configFunc.match.auVar.name;
 
-  let configureFuncBody = {
+  var configureFuncBody = {
     type: 'BlockStatement',
     // The matched body is an array, wrap them under single node,
     // so that I don't need to call forEach to deal with them.
     body: configFunc.match.body
   };
 
-  let isLikelyAureliaConfigFile;
-  let isAureliaMainFile = !!(astMatcher(`${auVar}.start()`)(contents));
+  var isLikelyAureliaConfigFile;
+  var isAureliaMainFile = !!(astMatcher(auVar + '.start()')(contents));
 
   if (!isAureliaMainFile) {
     // an aurelia plugin entry file is likely to call one of
     // 'globalResources', 'feature', or 'plugin'
-    isLikelyAureliaConfigFile = !!(astMatcher(`${auVar}.globalResources(__anl)`)(contents) ||
-                                   astMatcher(`${auVar}.feature(__anl)`)(contents) ||
-                                   astMatcher(`${auVar}.plugin(__anl)`)(contents));
+    isLikelyAureliaConfigFile = !!(astMatcher(auVar + '.globalResources(__anl)')(contents) ||
+                                   astMatcher(auVar + '.feature(__anl)')(contents) ||
+                                   astMatcher(auVar + '.plugin(__anl)')(contents));
   }
 
-  let deps = new Set();
-  let add = _add.bind(deps);
+  var deps = new Set();
+  var add = _add.bind(deps);
 
   if (isAureliaMainFile) {
-    let match = _methodCall(configureFuncBody);
+    var match = _methodCall(configureFuncBody);
     if (match) {
       // track aurelia dependency based on user configuration.
-      match.forEach(m => {
-        let methodName = m.match.method.name;
-        let _deps = auConfigModuleNames[methodName];
-        if (_deps) _deps.forEach(d => add(d));
+      match.forEach(function(m) {
+        var methodName = m.match.method.name;
+        var _deps = auConfigModuleNames[methodName];
+        if (_deps) _deps.forEach(add);
       });
     }
 
     if (auDevLogWithOptionalLevel(configureFuncBody)) {
-      auConfigModuleNames.developmentLogging.forEach(d => add(d));
+      auConfigModuleNames.developmentLogging.forEach(add);
     }
   }
 
   if (isAureliaMainFile || isLikelyAureliaConfigFile) {
-    _auConfigureDeps(configureFuncBody).forEach(d => add(d));
+    _auConfigureDeps(configureFuncBody).forEach(add);
   }
 
   // Need to ignore dep behind condition
@@ -141,18 +147,18 @@ const auConfigureDepFinder = function(contents) {
   //   if (environment.testing) {
   //      aurelia.use.plugin('aurelia-testing');
   //   }
-  let allIfs = _findIf(configureFuncBody);
+  var allIfs = _findIf(configureFuncBody);
   if (allIfs) {
-    allIfs.forEach(m => {
-      let volatileDeps = _auConfigureDeps(m.node);
-      volatileDeps.forEach(d => deps.delete(d));
+    allIfs.forEach(function(m) {
+      var volatileDeps = _auConfigureDeps(m.node);
+      volatileDeps.forEach(function(d) {deps.delete(d);});
     });
   }
 
   return deps;
-};
+}
 
-const inlineViewExtract = depFinder(
+var inlineViewExtract = depFinder(
   // for babel compiled code
   '(__any, __any.inlineView)(__dep)',
   '(__any, __any.inlineView)(__dep, __any)',
@@ -161,8 +167,8 @@ const inlineViewExtract = depFinder(
   '__any.inlineView(__dep, __any)'
 );
 
-const auInlineViewDepsFinder = function(contents) {
-  let match = inlineViewExtract(contents);
+var auInlineViewDepsFinder = function(contents) {
+  var match = inlineViewExtract(contents);
   if (match.length === 0) return [];
 
   // If user accidentally calls inlineView more than once,
@@ -178,13 +184,14 @@ function _add(deps) {
   if (!deps) return;
   if (typeof deps === 'string') deps = [deps];
 
-  deps.forEach(d => {
+  var that = this;
+  deps.forEach(function(d) {
     if (!d) return;
     // ignore string interpolation
     // <compose view-model="./foo/${bar}"></compose>
     if (d.indexOf('$') >= 0) return;
 
-    let clean = d.trim();
+    var clean = d.trim();
     // strip off leading /
     if (clean[0] === '/') clean = clean.slice(1);
 
@@ -195,25 +202,25 @@ function _add(deps) {
       clean = clean.replace(/\.js$/ig, '');
     }
 
-    this.add(clean);
+    that.add(clean);
   });
 }
 
 function isPackageName(id) {
   if (id.startsWith('.')) return false;
-  const parts = id.split('/');
+  var parts = id.split('/');
   // package name, or scope package name
   return parts.length === 1 || (parts.length === 2 && parts[0].startsWith('@'));
 }
 
-export function findJsDeps(filename, contents, mock) {
-  let _readFile = (mock && mock.readFile) || fsReadFile;
-  let deps = new Set();
-  let add = _add.bind(deps);
+function findJsDeps(filename, contents, mock) {
+  var _readFile = (mock && mock.readFile) || fsReadFile;
+  var deps = new Set();
+  var add = _add.bind(deps);
 
   // for all following static analysis,
   // only parse once for efficiency
-  let parsed = ensureParsed(contents);
+  var parsed = ensureParsed(contents);
 
   // aurelia dependencies PLATFORM.moduleName and some others
   add(auJsDepFinder(parsed));
@@ -225,25 +232,25 @@ export function findJsDeps(filename, contents, mock) {
   add(auInlineViewDepsFinder(parsed));
 
   // aurelia view convention, try foo.html for every foo.js
-  let {parts} = parse(filename);
-  parts[parts.length - 1] = parts[parts.length - 1].replace(/\.js$/, '.html');
-  let htmlPair = parts.join('/');
-  let localHtmlPair = parts[parts.length - 1];
+  var parts = parse(filename).parts;
+  parts[parts.length - 1] = parts[parts.length - 1].slice(0, -3) + '.html';
+  var htmlPair = parts.join('/');
+  var localHtmlPair = parts[parts.length - 1];
 
   return _readFile(htmlPair).then(
-    () => {
+    function() {
       // got html file
       add('./' + localHtmlPair);
     },
-    () => {}
-  ).then(() => Array.from(deps));
+    function() {}
+  ).then(function() {return Array.from(deps);});
 }
 
-export function findHtmlDeps(filename, contents) {
-  let deps = new Set();
-  let add = _add.bind(deps);
+function findHtmlDeps(filename, contents) {
+  var deps = new Set();
+  var add = _add.bind(deps);
 
-  let parser = new htmlparser.Parser({
+  var parser = new htmlparser.Parser({
     onopentag: function(name, attrs) {
       // <require from="dep"></require>
       if (name === 'require' && attrs.from) {
@@ -265,8 +272,8 @@ export function findHtmlDeps(filename, contents) {
   return Array.from(deps);
 }
 
-export default function(filename, contents, mock) {
-  let _ext = ext(filename);
+function findDeps(filename, contents, mock) {
+  var _ext = ext(filename);
 
   if (_ext === '.js') {
     return findJsDeps(filename, contents, mock);
@@ -276,3 +283,7 @@ export default function(filename, contents, mock) {
 
   return [];
 }
+
+findDeps.findJsDeps = findJsDeps;
+findDeps.findHtmlDeps = findHtmlDeps;
+module.exports = findDeps;

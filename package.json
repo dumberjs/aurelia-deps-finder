@@ -2,9 +2,9 @@
   "name": "aurelia-deps-finder",
   "version": "1.0.2",
   "description": "Aurelia deps finder for dumber bundler",
-  "main": "dist/index.js",
+  "main": "index.js",
   "files": [
-    "dist"
+    "index.js"
   ],
   "scripts": {
     "lint": "eslint index.js test.js",
@@ -12,10 +12,9 @@
     "version": "standard-changelog && git add CHANGELOG.md",
     "postversion": "git push && git push --tags && npm publish",
     "pretest": "npm run lint",
-    "prepare": "babel index.js -d dist",
-    "nodejs-test": "tape -r @babel/register test.js | tap-dot",
-    "coverage": "nyc --reporter=lcov tape -r @babel/register test.js | tap-dot",
-    "browser-test": "browserify -t babelify test.js | tape-run | tap-dot",
+    "nodejs-test": "tape test.js | tap-dot",
+    "coverage": "nyc --reporter=lcov tape test.js | tap-dot",
+    "browser-test": "browserify test.js | tape-run | tap-dot",
     "test": "npm run nodejs-test && npm run browser-test"
   },
   "repository": {
@@ -38,12 +37,6 @@
     "htmlparser2": "^3.10.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "@babel/register": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "babelify": "^10.0.0",
     "browserify": "^16.2.3",
     "eslint": "^5.9.0",
     "nyc": "^13.1.0",

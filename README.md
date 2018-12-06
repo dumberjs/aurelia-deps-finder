@@ -4,7 +4,7 @@ Aurelia deps finder for dumber bundler.
 
 ```js
 const dumber = require('gulp-dumber');
-const auDepsFinder = require('aurelia-deps-finder').default;
+const auDepsFinder = require('aurelia-deps-finder');
 
 const dr = dumber({depsFinder: auDepsFinder});
 ```
