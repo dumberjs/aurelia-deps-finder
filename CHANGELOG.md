@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.0...v1.1.1) (2018-12-11)
+
+
+### Bug Fixes
+
+* fix deps config ([ec14d6d](https://github.com/dumberjs/aurelia-deps-finder/commit/ec14d6d))
+
+
+
 # [1.1.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.0.2...v1.1.0) (2018-12-06)
 
 
