@@ -33,11 +33,14 @@
   },
   "homepage": "https://github.com/dumberjs/aurelia-deps-finder#readme",
   "dependencies": {
-    "dumber": "^0.4.4",
     "htmlparser2": "^3.10.0"
+  },
+  "peerDependencies": {
+    "dumber": "latest"
   },
   "devDependencies": {
     "browserify": "^16.2.3",
+    "dumber": "latest",
     "eslint": "^5.9.0",
     "nyc": "^13.1.0",
     "standard-changelog": "^2.0.6",
