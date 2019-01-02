@@ -1,3 +1,12 @@
+## [1.1.2](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.1...v1.1.2) (2019-01-02)
+
+
+### Bug Fixes
+
+* add text! prefix to aurelia deps on html/css files ([4c0373e](https://github.com/dumberjs/aurelia-deps-finder/commit/4c0373e))
+
+
+
 ## [1.1.1](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.0...v1.1.1) (2018-12-11)
 
 
