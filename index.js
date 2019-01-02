@@ -155,7 +155,7 @@ function auConfigureDepFinder(contents) {
     });
   }
 
-  return deps;
+  return Array.from(deps);
 }
 
 var inlineViewExtract = depFinder(
@@ -206,6 +206,15 @@ function _add(deps) {
   });
 }
 
+function auDep(dep) {
+  if (!dep) return dep;
+  var _ext = ext(dep);
+  if (_ext === '.html' || _ext === '.css') {
+    return 'text!' + dep;
+  }
+  return dep;
+}
+
 function isPackageName(id) {
   if (id.startsWith('.')) return false;
   var parts = id.split('/');
@@ -223,10 +232,10 @@ function findJsDeps(filename, contents, mock) {
   var parsed = ensureParsed(contents);
 
   // aurelia dependencies PLATFORM.moduleName and some others
-  add(auJsDepFinder(parsed));
+  add(auJsDepFinder(parsed).map(function(d) { return auDep(d); }));
 
   // aurelia deps in configure func without PLATFORM.moduleName
-  add(auConfigureDepFinder(parsed));
+  add(auConfigureDepFinder(parsed).map(function(d) { return auDep(d); }));
 
   // aurelia deps in inlineView template
   add(auInlineViewDepsFinder(parsed));
@@ -240,7 +249,7 @@ function findJsDeps(filename, contents, mock) {
   return _readFile(htmlPair).then(
     function() {
       // got html file
-      add('./' + localHtmlPair);
+      add('text!./' + localHtmlPair);
     },
     function() {}
   ).then(function() {return Array.from(deps);});
@@ -254,15 +263,15 @@ function findHtmlDeps(filename, contents) {
     onopentag: function(name, attrs) {
       // <require from="dep"></require>
       if (name === 'require' && attrs.from) {
-        add(attrs.from);
+        add(auDep(attrs.from));
       // <compose view-model="vm" view="view"></compose>
       // <any as-element="compose" view-model="vm" view="view"></any>
       } else if (name === 'compose' || attrs['as-element'] === 'compose') {
-        add([attrs['view-model'], attrs.view]);
+        add([auDep(attrs['view-model']), auDep(attrs.view)]);
       // <router-view layout-view-model="lvm" layout-view="ly"></router-view>
       // <any as-element === 'router-view' layout-view-model="lvm" layout-view="ly"></any>
       } else if (name === 'router-view' || attrs['as-element'] === 'router-view') {
-        add([attrs['layout-view-model'], attrs['layout-view']]);
+        add([auDep(attrs['layout-view-model']), auDep(attrs['layout-view'])]);
       }
     }
   });

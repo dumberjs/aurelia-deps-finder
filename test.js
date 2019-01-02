@@ -45,7 +45,7 @@ var html = '<template>\n\
     <router-view layout-view-model="${nope}" layout-view="lv1"></router-view>\n\
     <unknown as-element="router-view" layout-view-model="lvm2" layout-view="lv2"></unknown>\n\
   </template>';
-var htmlDeps = ['./c.html', 'a/b', 'd/e.css', 'lv1', 'lv2', 'lvm2', 'v2', 'vm1', 'vm2'];
+var htmlDeps = ['a/b', 'lv1', 'lv2', 'lvm2', 'text!./c.html', 'text!d/e.css', 'v2', 'vm1', 'vm2'];
 
 var css = "@import 'other.css';\n.demo { color: blue; }";
 
@@ -256,7 +256,7 @@ _classCallCheck(this, MyComp);\n\
   findJsDeps('my-comp.js', file, {readFile: buildReadFile({})})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./b.css', 'a.css']);
+      t.deepEqual(result.sort(), ['text!./b.css', 'text!a.css']);
     },
     function(err) {
       t.fail(err.message);
@@ -286,7 +286,7 @@ _classCallCheck(this, MyComp);\n\
   findJsDeps('my-comp.js', file, {readFile: buildReadFile({})})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./a.html']);
+      t.deepEqual(result.sort(), ['text!./a.html']);
     },
     function(err) {
       t.fail(err.message);
@@ -315,7 +315,7 @@ _classCallCheck(this, MyComp);\n\
   findJsDeps('my-comp.js', file, {readFile: buildReadFile({})})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./a.css']);
+      t.deepEqual(result.sort(), ['text!./a.css']);
     },
     function(err) {
       t.fail(err.message);
@@ -351,7 +351,7 @@ exports.MyComp = MyComp;";
   findJsDeps('my-comp.js', file, {readFile: buildReadFile({})})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./a.css']);
+      t.deepEqual(result.sort(), ['text!./a.css']);
     },
     function(err) {
       t.fail(err.message);
@@ -382,7 +382,7 @@ _classCallCheck(this, MyComp);\n\
   findJsDeps('my-comp.js', file, {readFile: buildReadFile({})})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./a.css', './b.css', './c.css']);
+      t.deepEqual(result.sort(), ['text!./a.css', 'text!./b.css', 'text!./c.css']);
     },
     function(err) {
       t.fail(err.message);
@@ -396,7 +396,7 @@ test('findJsDeps find html file by aurelia view convention', function(t) {
   })})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./foo.html']);
+      t.deepEqual(result.sort(), ['text!./foo.html']);
     },
     function(err) {
       t.fail(err.message);
@@ -421,7 +421,7 @@ test('findDeps find html file by aurelia view convention', function(t) {
   })})
   .then(
     function(result) {
-      t.deepEqual(result.sort(), ['./foo.html']);
+      t.deepEqual(result.sort(), ['text!./foo.html']);
     },
     function(err) {
       t.fail(err.message);
