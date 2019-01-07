@@ -41,11 +41,11 @@
   "devDependencies": {
     "browserify": "^16.2.3",
     "dumber": "latest",
-    "eslint": "^5.9.0",
+    "eslint": "^5.12.0",
     "nyc": "^13.1.0",
     "standard-changelog": "^2.0.6",
     "tap-dot": "^2.0.0",
-    "tape": "^4.9.1",
-    "tape-run": "^4.0.0"
+    "tape": "^4.9.2",
+    "tape-run": "^5.0.0"
   }
 }
