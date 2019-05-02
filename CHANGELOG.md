@@ -1,3 +1,12 @@
+## [1.1.3](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.2...v1.1.3) (2019-05-02)
+
+
+### Bug Fixes
+
+* fix peerDependencies warning ([8b1c0e0](https://github.com/dumberjs/aurelia-deps-finder/commit/8b1c0e0))
+
+
+
 ## [1.1.2](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.1...v1.1.2) (2019-01-02)
 
 
