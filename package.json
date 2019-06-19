@@ -14,7 +14,7 @@
     "pretest": "npm run lint",
     "nodejs-test": "tape test.js | tap-dot",
     "coverage": "nyc --reporter=lcov tape test.js | tap-dot",
-    "browser-test": "browserify test.js | tape-run | tap-dot",
+    "browser-test": "browserify test.js | browser-do --tap | tap-dot",
     "test": "npm run nodejs-test && npm run browser-test"
   },
   "repository": {
@@ -35,7 +35,7 @@
   "dependencies": {
     "ast-matcher": ">=1.0.2",
     "dumber": ">=0.11.5",
-    "dumber-module-loader": ">=0.16.0",
+    "dumber-module-loader": ">=0.16.1",
     "htmlparser2": "^3.10.1"
   },
   "devDependencies": {
@@ -45,6 +45,6 @@
     "standard-changelog": "^2.0.11",
     "tap-dot": "^2.0.0",
     "tape": "^4.10.2",
-    "tape-run": "^6.0.0"
+    "browser-do": "^0.2.0"
   }
 }
