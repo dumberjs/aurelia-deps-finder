@@ -33,18 +33,18 @@
   },
   "homepage": "https://github.com/dumberjs/aurelia-deps-finder#readme",
   "dependencies": {
-    "ast-matcher": ">=1.0.2",
-    "dumber": ">=0.12.0",
-    "dumber-module-loader": ">=0.17.0",
+    "ast-matcher": ">=1.0.4",
+    "dumber": ">=0.12.5",
+    "dumber-module-loader": ">=0.18.0",
     "htmlparser2": "^3.10.1"
   },
   "devDependencies": {
-    "browserify": "^16.2.3",
-    "eslint": "^6.0.1",
+    "browserify": "^16.3.0",
+    "eslint": "^6.1.0",
     "nyc": "^14.1.1",
-    "standard-changelog": "^2.0.11",
+    "standard-changelog": "^2.0.13",
     "tap-dot": "^2.0.0",
-    "tape": "^4.10.2",
-    "browser-do": "^0.2.0"
+    "tape": "^4.11.0",
+    "browser-do": "^0.3.2"
   }
 }
