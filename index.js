@@ -1,6 +1,6 @@
 'use strict';
-require('dumber/dist/ensure-parser-set');
-var fsReadFile = require('dumber/dist/shared').fsReadFile;
+require('dumber').ensureParserSet();
+var fsReadFile = require('dumber/lib/shared').fsReadFile;
 var idUtils = require('dumber-module-loader/dist/id-utils');
 var ext = idUtils.ext;
 var parse = idUtils.parse;
