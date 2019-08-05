@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.5...v1.2.0) (2019-08-05)
+
+
+### Features
+
+* upgrade to latest dumber ([99d180b](https://github.com/dumberjs/aurelia-deps-finder/commit/99d180b))
+
+
+
 ## [1.1.5](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.4...v1.1.5) (2019-07-31)
 
 
