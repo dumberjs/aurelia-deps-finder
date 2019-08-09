@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.2.0...v1.3.0) (2019-08-09)
+
+
+### Features
+
+* do not ignore deps behind condition ([1bcf263](https://github.com/dumberjs/aurelia-deps-finder/commit/1bcf263))
+
+
+
 # [1.2.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.1.5...v1.2.0) (2019-08-05)
 
 
