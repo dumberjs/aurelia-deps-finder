@@ -44,8 +44,6 @@ var _checkConfigureFunc = [
   astMatcher('exports.configure = function(__any_auVar, __any) {__anl_body};')
 ];
 
-var _findIf = astMatcher('if (__any) {__anl}');
-
 var _auConfigureDeps = depFinder(
   // forgive users don't know about PLATFORM.moduleName
   '__any.plugin(__dep)',
@@ -139,20 +137,6 @@ function auConfigureDepFinder(contents) {
 
   if (isAureliaMainFile || isLikelyAureliaConfigFile) {
     _auConfigureDeps(configureFuncBody).forEach(add);
-  }
-
-  // Need to ignore dep behind condition
-  //
-  // for instance:
-  //   if (environment.testing) {
-  //      aurelia.use.plugin('aurelia-testing');
-  //   }
-  var allIfs = _findIf(configureFuncBody);
-  if (allIfs) {
-    allIfs.forEach(function(m) {
-      var volatileDeps = _auConfigureDeps(m.node);
-      volatileDeps.forEach(function(d) {deps.delete(d);});
-    });
   }
 
   return Array.from(deps);

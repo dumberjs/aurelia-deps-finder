@@ -93,7 +93,7 @@ test('findJsDeps throws at syntax error', function(t) {
   t.end();
 });
 
-test('findJsDeps finds plugins, but ignores plugin behind if condition', function(t) {
+test('findJsDeps finds plugins', function(t) {
 /*
 import environment from './environment';
 import {PLATFORM} from 'aurelia-pal';
@@ -154,6 +154,9 @@ aurelia.start().then(function () {\n\
         'aurelia-templating-binding',
         'aurelia-templating-resources',
         'aurelia-templating-router',
+        'nope',
+        'nope1',
+        'nope2',
         'p1',
         'p2',
         'p3',
@@ -167,7 +170,7 @@ aurelia.start().then(function () {\n\
   ).then(t.end);
 });
 
-test('findJsDeps finds plugins and global resources in configure, but ignores plugin behind if condition', function(t) {
+test('findJsDeps finds plugins and global resources in configure', function(t) {
 /*
 import {BcxService} from './bcx-service';
 import environment from '../environment';
@@ -225,7 +228,13 @@ if (_environment2.default.testing) {\n\
         './binding-behaviors/z',
         './elements/a',
         './elements/x-y',
-        'ab', 'p1', 'p2', 'p3'
+        'ab',
+        'nope',
+        'nope1',
+        'nope2',
+        'p1',
+        'p2',
+        'p3'
       ]);
     },
     function(err) {
