@@ -148,9 +148,12 @@ aurelia.start().then(function () {\n\
   .then(
     function(result) {
       t.deepEqual(result.sort(), [
+        'aurelia-bootstrapper',
         'aurelia-event-aggregator',
         'aurelia-history-browser',
+        'aurelia-loader-default',
         'aurelia-logging-console',
+        'aurelia-pal-browser',
         'aurelia-templating-binding',
         'aurelia-templating-resources',
         'aurelia-templating-router',

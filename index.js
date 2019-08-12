@@ -78,6 +78,12 @@ var auConfigModuleNames = {
   ]
 };
 
+var entryDeps = [
+  'aurelia-bootstrapper',
+  'aurelia-loader-default',
+  'aurelia-pal-browser'
+];
+
 // https://github.com/aurelia/framework/pull/851
 var auDevLogWithOptionalLevel = astMatcher('__any.developmentLogging(__any)');
 
@@ -126,7 +132,10 @@ function auConfigureDepFinder(contents) {
       match.forEach(function(m) {
         var methodName = m.match.method.name;
         var _deps = auConfigModuleNames[methodName];
-        if (_deps) _deps.forEach(add);
+        if (_deps) {
+          entryDeps.forEach(add);
+          _deps.forEach(add);
+        }
       });
     }
 
