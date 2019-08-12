@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.3.0...v1.4.0) (2019-08-12)
+
+
+### Features
+
+* automatically add required dependencies in browser env ([c0a11df](https://github.com/dumberjs/aurelia-deps-finder/commit/c0a11df))
+
+
+
 # [1.3.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.2.0...v1.3.0) (2019-08-09)
 
 
