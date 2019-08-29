@@ -34,8 +34,8 @@
   "homepage": "https://github.com/dumberjs/aurelia-deps-finder#readme",
   "dependencies": {
     "ast-matcher": "^1.0.5",
-    "dumber": ">=0.14.4",
-    "dumber-module-loader": ">=0.18.0",
+    "dumber": ">=1.0.0",
+    "dumber-module-loader": ">=1.0.0",
     "htmlparser2": "^4.0.0"
   },
   "devDependencies": {
