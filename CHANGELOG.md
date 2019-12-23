@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.0.0...v2.1.0) (2019-12-23)
+
+
+### Features
+
+* support jsdelivr when running in browser ([2a757d8](https://github.com/dumberjs/aurelia-deps-finder/commit/2a757d8953b899909c18446ce0047b4a2f82b8c6))
+
+
+
 # [2.0.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v1.4.1...v2.0.0) (2019-08-29)
 
 
