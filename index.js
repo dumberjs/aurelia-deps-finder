@@ -3,11 +3,70 @@ require('dumber').ensureParserSet();
 var fsReadFile = require('dumber/lib/shared').fsReadFile;
 var idUtils = require('dumber-module-loader/dist/id-utils');
 var ext = idUtils.ext;
-var parse = idUtils.parse;
 var astMatcher = require('ast-matcher');
 var depFinder = astMatcher.depFinder;
 var ensureParsed = astMatcher.ensureParsed;
 var htmlparser = require('htmlparser2');
+
+var jsdelivr_regext = /^(?:https?:)?\/\/cdn.jsdelivr.net\/npm\/(.[^@]*)@([^/]+)\/(.+)$/;
+
+function buildFileSet(files, folder) {
+  var set = new Set();
+  var prefix = folder ? (folder + '/') : '';
+
+  files.forEach(function(node) {
+    if (node.type === 'directory') {
+      buildFileSet(node.files, prefix + node.name)
+        .forEach(function(f) { set.add(f); });
+    } else if (node.type === 'file') {
+      set.add(prefix + node.name);
+    }
+  });
+
+  return set;
+}
+
+var fileLists = {};
+function whenFileListReady(packageName, version, _fetch) {
+  var key = packageName + '@' + version;
+
+  if (!fileLists.hasOwnProperty(key)) {
+    fileLists[key] = _fetch('//data.jsdelivr.com/v1/package/npm/' + key)
+      .then(function(response) {
+        if (response.ok) return response.json();
+        return {files: []};
+      })
+      .then(function(result) {
+        return buildFileSet(result.files);
+      });
+  }
+
+  return fileLists[key];
+}
+
+var readFile;
+if (process.browser) {
+  readFile = function (filepath, _fetch) {
+    var m = filepath.match(jsdelivr_regext);
+    if (m) {
+      var packageName = m[1];
+      var version = m[2];
+      var fpath = m[3];
+
+      return whenFileListReady(packageName, version, _fetch)
+        .then(function(files) {
+          if (!files.has(fpath)) {
+            throw new Error('no file "' + fpath + '" in ' + packageName + '@' + version);
+          }
+          // file exist, don't care about file content
+        });
+    } else {
+      return fsReadFile(filepath);
+    }
+  }
+} else {
+  readFile = fsReadFile;
+}
 
 var auJsDepFinder = depFinder(
   'PLATFORM.moduleName(__dep)',
@@ -216,7 +275,8 @@ function isPackageName(id) {
 }
 
 function findJsDeps(filename, contents, mock) {
-  var _readFile = (mock && mock.readFile) || fsReadFile;
+  var _readFile = (mock && mock.readFile) || readFile;
+  var _fetch = (mock && mock.fetch) || global.fetch;
   var deps = new Set();
   var add = _add.bind(deps);
 
@@ -234,12 +294,11 @@ function findJsDeps(filename, contents, mock) {
   add(auInlineViewDepsFinder(parsed));
 
   // aurelia view convention, try foo.html for every foo.js
-  var parts = parse(filename).parts;
-  parts[parts.length - 1] = parts[parts.length - 1].slice(0, -3) + '.html';
-  var htmlPair = parts.join('/');
-  var localHtmlPair = parts[parts.length - 1];
+  var htmlPair = filename.slice(0, -3) + '.html';
+  var sep = filename.lastIndexOf('/') + 1;
+  var localHtmlPair = htmlPair.slice(sep);
 
-  return _readFile(htmlPair).then(
+  return _readFile(htmlPair, _fetch).then(
     function() {
       // got html file
       add('text!./' + localHtmlPair);

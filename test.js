@@ -488,3 +488,82 @@ test('findDeps passes other files', function(t) {
     }
   ).then(t.end);
 });
+
+function mkJsonResponse (obj) {
+  return {
+    ok: true,
+    json: function() { return Promise.resolve(obj); }
+  }
+}
+
+function mockFetch (url) {
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      if (url === '//data.jsdelivr.com/v1/package/npm/foo@1.0.0') {
+        resolve(mkJsonResponse({
+          files: [
+            {
+              type: 'file',
+              name: 'package.json'
+            },
+            {
+              type: 'directory',
+              name: 'dist',
+              files: [
+                {
+                  type: 'file',
+                  name: 'bar.js'
+                },
+                {
+                  type: 'file',
+                  name: 'bar.html'
+                }
+              ]
+            }
+          ]
+        }));
+      } else if (url === '//data.jsdelivr.com/v1/package/npm/bar@2.0.0') {
+        resolve(mkJsonResponse({
+          files: [
+            {
+              type: 'file',
+              name: 'package.json'
+            },
+            {
+              type: 'file',
+              name: 'lo.js'
+            }
+          ]
+        }));
+      } else {
+        resolve({statusText: 'Not Found'});
+      }
+    }, 10);
+  });
+}
+
+if (process.browser) {
+  test('findDeps finds html file pair in jsdelivr', function(t) {
+    findDeps('//cdn.jsdelivr.net/npm/foo@1.0.0/dist/bar.js', 'var a=1;', {fetch: mockFetch})
+      .then(
+      function(result) {
+        t.deepEqual(result.sort(), ['text!./bar.html']);
+      },
+      function(err) {
+        t.fail(err.message);
+      }
+    ).then(t.end);
+  });
+
+  test('findDeps sees missing html file pair in jsdelivr', function(t) {
+    findDeps('//cdn.jsdelivr.net/npm/bar@2.0.0/lo.js', 'var a=1;', {fetch: mockFetch})
+      .then(
+      function(result) {
+        t.deepEqual(result.sort(), []);
+      },
+      function(err) {
+        t.fail(err.message);
+      }
+    ).then(t.end);
+  });
+}

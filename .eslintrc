@@ -5,7 +5,8 @@
     "no-prototype-builtins": 0
   },
   "env": {
-    "commonjs": true
+    "commonjs": true,
+    "node": true
   },
   "globals": {
     "Promise": true,
