@@ -1,3 +1,12 @@
+## [2.1.1](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.0...v2.1.1) (2020-03-05)
+
+
+### Bug Fixes
+
+* support raw aysnc func syntax ([5c79c98](https://github.com/dumberjs/aurelia-deps-finder/commit/5c79c98893c37939018b34f7613597622a6ee2a5))
+
+
+
 # [2.1.0](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.0.0...v2.1.0) (2019-12-23)
 
 
