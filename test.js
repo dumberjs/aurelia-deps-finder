@@ -100,8 +100,8 @@ import {PLATFORM} from 'aurelia-pal';
 
 export function configure(aurelia) {
   aurelia.use
-    .feature('resources');
-    .standardConfiguration();
+    .feature('resources')
+    .standardConfiguration()
     .plugin('p1')
     .developmentLogging(environment.debug ? 'debug' : 'warn');
   aurelia.use.plugin(PLATFORM.moduleName('pm'));
@@ -143,6 +143,61 @@ aurelia.start().then(function () {\n\
   return aurelia.setRoot();\n\
 });\n\
 }";
+
+  findJsDeps('main.js', file, {readFile: buildReadFile({})})
+  .then(
+    function(result) {
+      t.deepEqual(result.sort(), [
+        'aurelia-bootstrapper',
+        'aurelia-event-aggregator',
+        'aurelia-history-browser',
+        'aurelia-loader-default',
+        'aurelia-logging-console',
+        'aurelia-pal-browser',
+        'aurelia-templating-binding',
+        'aurelia-templating-resources',
+        'aurelia-templating-router',
+        'nope',
+        'nope1',
+        'nope2',
+        'p1',
+        'p2',
+        'p3',
+        'pm',
+        'resources'
+      ]);
+    },
+    function(err) {
+      t.fail(err.message);
+    }
+  ).then(t.end);
+});
+
+test('findJsDeps finds plugins on minimum processed source', function(t) {
+/*
+
+*/
+  var file = "import environment from './environment';\n\
+import {PLATFORM} from 'aurelia-pal';\n\
+\n\
+export async function configure(aurelia) {\n\
+  aurelia.use\n\
+    .feature('resources')\n\
+    .standardConfiguration()\n\
+    .plugin('p1')\n\
+    .developmentLogging(environment.debug ? 'debug' : 'warn');\n\
+  aurelia.use.plugin(PLATFORM.moduleName('pm'));\n\
+  aurelia.use.plugin('p2', {foo: 1});\n\
+  aurelia.use.plugin('p3', c => c.foo = 1);\n\
+  if (environment.testing) {\n\
+    aurelia.use.plugin('nope');\n\
+    aurelia.use.plugin('nope1', {foo: 1});\n\
+    aurelia.use.plugin('nope2', c => c.foo = 1);\n\
+  }\n\
+  await aurelia.start();\n\
+  await aurelia.setRoot();\n\
+}\n\
+";
 
   findJsDeps('main.js', file, {readFile: buildReadFile({})})
   .then(
