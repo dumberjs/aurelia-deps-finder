@@ -99,8 +99,12 @@ var auJsDepFinder = depFinder(
 var _checkConfigureFunc = [
   astMatcher('function configure(__any_auVar) {__anl_body}'),
   astMatcher('function configure(__any_auVar, __any) {__anl_body}'),
+  astMatcher('async function configure(__any_auVar) {__anl_body}'),
+  astMatcher('async function configure(__any_auVar, __any) {__anl_body}'),
   astMatcher('exports.configure = function (__any_auVar) {__anl_body};'),
-  astMatcher('exports.configure = function(__any_auVar, __any) {__anl_body};')
+  astMatcher('exports.configure = function(__any_auVar, __any) {__anl_body};'),
+  astMatcher('exports.configure = async function (__any_auVar) {__anl_body};'),
+  astMatcher('exports.configure = async function(__any_auVar, __any) {__anl_body};')
 ];
 
 var _auConfigureDeps = depFinder(
