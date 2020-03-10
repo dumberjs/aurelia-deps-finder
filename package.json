@@ -12,9 +12,9 @@
     "version": "standard-changelog && git add CHANGELOG.md",
     "postversion": "git push && git push --tags && npm publish",
     "pretest": "npm run lint",
-    "nodejs-test": "tape test.js | tap-dot",
-    "coverage": "nyc --reporter=lcov tape test.js | tap-dot",
-    "browser-test": "browserify test.js | browser-do --tap | tap-dot",
+    "nodejs-test": "tape test.js | tap-nirvana",
+    "coverage": "nyc --reporter=lcov tape test.js | tap-nirvana",
+    "browser-test": "browserify test.js | browser-do --tap | tap-nirvana",
     "test": "npm run nodejs-test && npm run browser-test"
   },
   "repository": {
@@ -43,7 +43,7 @@
     "eslint": "^6.8.0",
     "nyc": "^15.0.0",
     "standard-changelog": "^2.0.21",
-    "tap-dot": "^2.0.0",
+    "tap-nirvana": "^1.1.0",
     "tape": "^4.13.2",
     "browser-do": "^2.0.1"
   }

@@ -1,4 +1,4 @@
-# aurelia-deps-finder [![Build Status](https://travis-ci.org/dumberjs/aurelia-deps-finder.svg?branch=master)](https://travis-ci.org/dumberjs/aurelia-deps-finder)
+# aurelia-deps-finder ![CI](https://github.com/dumberjs/aurelia-deps-finder/workflows/CI/badge.svg)
 
 Aurelia deps finder for dumber bundler. This is only needed for Aurelia v1, not Aurelia 2 (vNext).
 
