@@ -1,3 +1,12 @@
+## [2.1.2](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.1...v2.1.2) (2020-06-11)
+
+
+### Bug Fixes
+
+* fix unwanted method match on prototype ([94fb1ec](https://github.com/dumberjs/aurelia-deps-finder/commit/94fb1ec94a7a14a0f87f2f56573bd1a546eaccca))
+
+
+
 ## [2.1.1](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.0...v2.1.1) (2020-03-05)
 
 
