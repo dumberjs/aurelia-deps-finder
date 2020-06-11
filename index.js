@@ -194,10 +194,9 @@ function auConfigureDepFinder(contents) {
       // track aurelia dependency based on user configuration.
       match.forEach(function(m) {
         var methodName = m.match.method.name;
-        var _deps = auConfigModuleNames[methodName];
-        if (_deps) {
+        if (auConfigModuleNames.hasOwnProperty(methodName)) {
           entryDeps.forEach(add);
-          _deps.forEach(add);
+          auConfigModuleNames[methodName].forEach(add);
         }
       });
     }

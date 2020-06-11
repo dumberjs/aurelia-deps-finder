@@ -194,6 +194,7 @@ export async function configure(aurelia) {\n\
     aurelia.use.plugin('nope1', {foo: 1});\n\
     aurelia.use.plugin('nope2', c => c.foo = 1);\n\
   }\n\
+  something.toString();\n\
   await aurelia.start();\n\
   await aurelia.setRoot();\n\
 }\n\
