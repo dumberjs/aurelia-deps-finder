@@ -36,15 +36,15 @@
     "ast-matcher": "^1.1.1",
     "dumber": "^1.0.0",
     "dumber-module-loader": "^1.0.0",
-    "htmlparser2": "^4.1.0"
+    "htmlparser2": "^6.0.0"
   },
   "devDependencies": {
-    "browserify": "^16.5.0",
-    "eslint": "^6.8.0",
-    "nyc": "^15.0.0",
-    "standard-changelog": "^2.0.21",
+    "browserify": "^17.0.0",
+    "eslint": "^7.18.0",
+    "nyc": "^15.1.0",
+    "standard-changelog": "^2.0.27",
     "tap-nirvana": "^1.1.0",
-    "tape": "^4.13.2",
-    "browser-do": "^2.0.1"
+    "tape": "^5.1.1",
+    "browser-do": "^3.0.2"
   }
 }
