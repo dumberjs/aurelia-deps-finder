@@ -1,3 +1,12 @@
+## [2.1.4](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.3...v2.1.4) (2022-04-21)
+
+
+### Bug Fixes
+
+* correctly keep remote module id ([fb149f2](https://github.com/dumberjs/aurelia-deps-finder/commit/fb149f298c9eef8085717b86c3fcae6945ebd36d))
+
+
+
 ## [2.1.3](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.2...v2.1.3) (2021-01-19)
 
 
