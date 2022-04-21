@@ -247,12 +247,11 @@ function _add(deps) {
     if (d.indexOf('$') >= 0) return;
 
     var clean = d.trim();
-    // strip off leading /
-    if (clean[0] === '/') clean = clean.slice(1);
 
     // There is some npm package call itself like "popper.js",
     // cannot strip .js from it.
-    if (!isPackageName(clean)) {
+    // Also don't remove .js from /remote/file.js
+    if (!isPackageName(clean) && clean[0] !== '/') {
       // strip off tailing .js
       clean = clean.replace(/\.js$/ig, '');
     }

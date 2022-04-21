@@ -27,7 +27,7 @@ var js = "define(['./a', 'aurelia-pal', 'exports'], function(a,b,e){\n\
   //duplicate\n\
   PLATFORM.moduleName('in1');\n\
 });";
-var jsDeps = ['in1', 'in1.js/foo', 'in2.js'];
+var jsDeps = ['/in2.js', 'in1', 'in1.js/foo'];
 
 var html = '<template>\n\
     <require from="a/b"></require>\n\
@@ -41,11 +41,11 @@ var html = '<template>\n\
     <require from.bind="nope"></require>\n\
     <!-- <require from="nope"></require> -->\n\
     <compose view-model="vm1" view.bind="nope"></compose>\n\
-    <div as-element="compose" view-model="vm2" view="v2"></div>\n\
+    <div as-element="compose" view-model="vm2" view="/v2"></div>\n\
     <router-view layout-view-model="${nope}" layout-view="lv1"></router-view>\n\
     <unknown as-element="router-view" layout-view-model="lvm2" layout-view="lv2"></unknown>\n\
   </template>';
-var htmlDeps = ['a/b', 'lv1', 'lv2', 'lvm2', 'text!./c.html', 'text!d/e.css', 'v2', 'vm1', 'vm2'];
+var htmlDeps = ['/v2', 'a/b', 'lv1', 'lv2', 'lvm2', 'text!./c.html', 'text!d/e.css', 'vm1', 'vm2'];
 
 var css = "@import 'other.css';\n.demo { color: blue; }";
 
