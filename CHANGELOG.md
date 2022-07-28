@@ -1,3 +1,12 @@
+## [2.1.5](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.4...v2.1.5) (2022-07-28)
+
+
+### Bug Fixes
+
+* fix dumber dep version ([9b5f421](https://github.com/dumberjs/aurelia-deps-finder/commit/9b5f42101033823d91d85c2d1c05769a42a22886))
+
+
+
 ## [2.1.4](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.3...v2.1.4) (2022-04-21)
 
 
