@@ -1,6 +1,6 @@
 {
   "name": "aurelia-deps-finder",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Aurelia deps finder for dumber bundler",
   "main": "index.js",
   "files": [

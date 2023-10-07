@@ -1,3 +1,12 @@
+## [2.1.7](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.6...v2.1.7) (2023-10-07)
+
+
+### Bug Fixes
+
+* find deps for mjs and cjs files too ([4011ce4](https://github.com/dumberjs/aurelia-deps-finder/commit/4011ce4d6f81590a7ca98f792d3a8abe44ec2633))
+
+
+
 ## [2.1.6](https://github.com/dumberjs/aurelia-deps-finder/compare/v2.1.5...v2.1.6) (2022-07-28)
 
 
