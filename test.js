@@ -509,6 +509,18 @@ test('findDeps finds js deps', function(t) {
   ).then(t.end);
 });
 
+test('findDeps finds mjs deps', function(t) {
+  findDeps('ignore.mjs', js, {readFile: buildReadFile({})})
+  .then(
+    function(result) {
+      t.deepEqual(result.sort(), jsDeps);
+    },
+    function(err) {
+      t.fail(err.message);
+    }
+  ).then(t.end);
+});
+
 test('findDeps finds js deps', function(t) {
   findDeps('IGNORE.js', js, {readFile: buildReadFile({})})
   .then(

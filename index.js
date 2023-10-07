@@ -338,7 +338,7 @@ function findHtmlDeps(filename, contents) {
 function findDeps(filename, contents, mock) {
   var _ext = ext(filename);
 
-  if (_ext === '.js') {
+  if (_ext === '.js' || _ext === '.cjs' || _ext === '.mjs') {
     return findJsDeps(filename, contents, mock);
   } else if (_ext === '.html' || _ext === '.htm') {
     return findHtmlDeps(filename, contents);
